@@ -12,7 +12,7 @@ UnorganizedData = openpyxl.load_workbook('Poorly_Organized_Data_1.xlsx')
 CurrSheet = UnorganizedData.active
 
 # Create a new workbook to put the formated data on 
-OrganizedData = openpyxl.Workbook()
+OrganizedData = Workbook()
 
 # Remove the default sheet 
 OrganizedData.remove(OrganizedData["Sheet"])
@@ -41,7 +41,7 @@ def next_available_row(sheet):
 for row in CurrSheet.iter_rows(min_row=2, values_only=True): # skip row 1 
 
     # Create a variable name for the students subject
-    subject_name = subject_name = row[0]  
+    subject_name = row[0]  
 
     # Create a new sheet if there isn't one made for this students subject
     if subject_name not in OrganizedData.sheetnames:
@@ -104,7 +104,7 @@ for row in CurrSheet.iter_rows(min_row=2, values_only=True): # skip row 1
     CurrSheet[f"C{availableRow}"] = oStud.ID
     CurrSheet[f"D{availableRow}"] = oStud.grade
     
-# iderate through each sheet to add filters and a summery of the data 
+# iterate through each sheet to add filters and a summary of the data 
 for sheet in OrganizedData.worksheets:
     
     # Get last row and make filters for A1- D(max row)
@@ -124,8 +124,9 @@ for sheet in OrganizedData.worksheets:
     sheet["G5"] = f"=MEDIAN(D2:D{last_row})"
     sheet["G6"] = f"=COUNT(D2:D{last_row})"
 
-
 # Save changes as a new excel file 
 OrganizedData.save(filename="formatted_grades.xlsx")
 
+#Close both workbooks
 UnorganizedData.close()
+OrganizedData.close()
